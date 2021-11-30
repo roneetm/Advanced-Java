@@ -1,5 +1,6 @@
 package DAO;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -12,10 +13,9 @@ import java.sql.*;
 public class Registration extends HttpServlet {
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
 
-        try{
-            System.out.println("Inside doPost");
+        try {
             Connection connection = DBConnection.getConnection();
 
             // Getting Max partyId from Database
@@ -24,8 +24,8 @@ public class Registration extends HttpServlet {
 
             // Storing max value in variable Id
             int maxId = -1;
-            if(result != null){
-                while (result.next()){
+            if (result != null) {
+                while (result.next()) {
                     maxId = result.getInt("maxId");
                 }
             }
@@ -45,7 +45,7 @@ public class Registration extends HttpServlet {
                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
             PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, maxId+1);
+            preparedStatement.setInt(1, maxId + 1);
             preparedStatement.setString(2, firstName);
             preparedStatement.setString(3, lastName);
             preparedStatement.setString(4, city);
@@ -54,7 +54,7 @@ public class Registration extends HttpServlet {
             preparedStatement.setString(7, country);
             preparedStatement.setString(8, phone);
 
-            String email =req.getParameter("email");
+            String email = req.getParameter("email");
             String password = req.getParameter("password");
 
             String loginQuery = "INSERT INTO `Data_Modelling`.`UserLogin` " +
@@ -64,35 +64,39 @@ public class Registration extends HttpServlet {
             PreparedStatement preparedStatement1 = connection.prepareStatement(loginQuery);
             preparedStatement1.setString(1, email);
             preparedStatement1.setString(2, password);
-            preparedStatement1.setInt(3, maxId+1);
+            preparedStatement1.setInt(3, maxId + 1);
 
-            String checkingEmail = "select partyId from UserLogin";
+            String checkingEmail = "select userLoginId from UserLogin";
             Statement statement1 = connection.createStatement();
             ResultSet resultSet = statement1.executeQuery(checkingEmail);
 
-            while (resultSet.next()){
-                if(resultSet.getString("PartyId").equals(email)){
-                    throw new Exception("Email already exists");
-                }
-                else {
+            while (resultSet.next()) {
+                if (resultSet.getString("userLoginId").equals(email)) {
+                    RequestDispatcher requestDispatcher = req.getRequestDispatcher("registration.html");
+                    requestDispatcher.include(req, resp);
+
+                } else {
                     // Setting values in Party Table
-                    preparedStatement.executeUpdate();
-                    System.out.println("Record inserted");
+                    //preparedStatement.executeUpdate();
                     preparedStatement.close();
 
                     // Inserting values in UserLogin table
-                    preparedStatement1.executeUpdate();
+                    //preparedStatement1.executeUpdate();
                     preparedStatement1.close(); // Closing Prepared Statement
-
                 }
             }
 
             connection.close(); // Closing Connection
 
-            PrintWriter out = resp.getWriter();
-            out.println("Inserted Successfully");
+            try {
+                PrintWriter out = resp.getWriter();
+                out.println("Inserted Successfully");
+            }
+            catch (IOException ioException){
+                ioException.getMessage();
+            }
 
-        } catch (SQLException | ClassNotFoundException sqlException){
+        } catch (SQLException | ClassNotFoundException sqlException) {
             sqlException.getMessage();
         } catch (Exception e) {
             e.printStackTrace();
