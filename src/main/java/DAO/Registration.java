@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.*;
+import java.util.Locale;
 
 @WebServlet("/registration")
 public class Registration extends HttpServlet {
@@ -72,29 +73,24 @@ public class Registration extends HttpServlet {
 
             while (resultSet.next()) {
                 if (resultSet.getString("userLoginId").equals(email)) {
-                    RequestDispatcher requestDispatcher = req.getRequestDispatcher("registration.html");
+                    RequestDispatcher requestDispatcher = req.getRequestDispatcher("registration.jsp");
+                    req.setAttribute("errMsg", "Email already exists");
                     requestDispatcher.include(req, resp);
 
                 } else {
                     // Setting values in Party Table
-                    //preparedStatement.executeUpdate();
+                    preparedStatement.executeUpdate();
                     preparedStatement.close();
 
                     // Inserting values in UserLogin table
-                    //preparedStatement1.executeUpdate();
+                    preparedStatement1.executeUpdate();
                     preparedStatement1.close(); // Closing Prepared Statement
+                    PrintWriter out = resp.getWriter();
+                    out.println("Inserted Successfully");
                 }
             }
 
             connection.close(); // Closing Connection
-
-            try {
-                PrintWriter out = resp.getWriter();
-                out.println("Inserted Successfully");
-            }
-            catch (IOException ioException){
-                ioException.getMessage();
-            }
 
         } catch (SQLException | ClassNotFoundException sqlException) {
             sqlException.getMessage();
@@ -103,3 +99,6 @@ public class Registration extends HttpServlet {
         }
     } // Closing doPost Method
 }
+
+//Todo: Implement ignore case search
+//Todo: Implement duplicate email registration

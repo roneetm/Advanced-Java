@@ -57,6 +57,7 @@
                 <div class="col-md-6">
                     <label for="inputEmail4" class="form-label">Email</label>
                     <input type="email" class="form-control" id="inputEmail4" name="email" placeholder="email@xyz.com">
+                    <span style="color:red;">${errMsg}</span>
                 </div>
                 <div class="col-md-6">
                     <label for="inputPassword4" class="form-label">Password</label>
