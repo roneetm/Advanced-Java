@@ -25,9 +25,11 @@ public class Search extends HttpServlet {
             ResultSet resultSet = statement.executeQuery(searchName);
 
             ArrayList<String> searchResult = new ArrayList<>();
+
+            // Checking if name entered by the user matches inside the database.
             while (resultSet.next()){
-                if(resultSet.getString("firstName").equals(firstName)
-                        || resultSet.getString("lastName").equals(lastName)){
+                if(resultSet.getString("firstName").equalsIgnoreCase(firstName)
+                        && resultSet.getString("lastName").equalsIgnoreCase(lastName)){
 
                     searchResult.add(firstName);
                     searchResult.add(lastName);
