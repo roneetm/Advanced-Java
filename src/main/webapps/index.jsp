@@ -12,7 +12,7 @@
 <nav class="navbar navbar-dark bg-dark">
     <div class="container">
         <span class="navbar-brand mb-0 h1">MIKE</span>
-        <a href="registration.html" class="btn btn-outline-success" role="button">Sign Up</a>
+        <a href="registration.jsp" class="btn btn-outline-success" role="button">Sign Up</a>
     </div>
 </nav>
 

@@ -18,7 +18,7 @@
 <nav class="navbar navbar-dark bg-dark">
     <div class="container">
         <span class="navbar-brand mb-0 h1">MIKE</span>
-        <a href="index.jsp" class="btn btn-outline-success" role="button">Logout</a>
+        <a href="logout" class="btn btn-outline-success" role="button">Logout</a>
     </div>
 </nav>
 
