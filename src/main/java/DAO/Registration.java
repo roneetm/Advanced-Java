@@ -19,6 +19,22 @@ public class Registration extends HttpServlet {
         try {
             Connection connection = DBConnection.getConnection();
 
+            // Checking if user is already registered.
+            String email = req.getParameter("email");
+            String password = req.getParameter("password");
+
+            String checkingEmail = "select userLoginId from UserLogin";
+            Statement statement1 = connection.createStatement();
+            ResultSet resultSet = statement1.executeQuery(checkingEmail);
+
+            while (resultSet.next()) {
+                if (resultSet.getString("userLoginId").equalsIgnoreCase(email)) {
+                    RequestDispatcher requestDispatcher = req.getRequestDispatcher("registration.jsp");
+                    req.setAttribute("errMsg", "Email already exists");
+                    requestDispatcher.include(req, resp);
+                }
+            }// If no email is found then control flow will continue to registration process
+
             // Getting Max partyId from Database
             Statement statement = connection.createStatement();
             ResultSet result = statement.executeQuery("select MAX(partyId) as maxId from Party");
@@ -55,9 +71,6 @@ public class Registration extends HttpServlet {
             preparedStatement.setString(7, country);
             preparedStatement.setString(8, phone);
 
-            String email = req.getParameter("email");
-            String password = req.getParameter("password");
-
             String loginQuery = "INSERT INTO `Data_Modelling`.`UserLogin` " +
                     "(`userLoginId`, `password`, `partyId`) " +
                     "VALUES (?, ?, ?)";
@@ -67,28 +80,15 @@ public class Registration extends HttpServlet {
             preparedStatement1.setString(2, password);
             preparedStatement1.setInt(3, maxId + 1);
 
-            String checkingEmail = "select userLoginId from UserLogin";
-            Statement statement1 = connection.createStatement();
-            ResultSet resultSet = statement1.executeQuery(checkingEmail);
+            // Setting values in Party Table
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
 
-            while (resultSet.next()) {
-                if (resultSet.getString("userLoginId").equals(email)) {
-                    RequestDispatcher requestDispatcher = req.getRequestDispatcher("registration.jsp");
-                    req.setAttribute("errMsg", "Email already exists");
-                    requestDispatcher.include(req, resp);
-
-                } else {
-                    // Setting values in Party Table
-                    preparedStatement.executeUpdate();
-                    preparedStatement.close();
-
-                    // Inserting values in UserLogin table
-                    preparedStatement1.executeUpdate();
-                    preparedStatement1.close(); // Closing Prepared Statement
-                    PrintWriter out = resp.getWriter();
-                    out.println("Inserted Successfully");
-                }
-            }
+            // Inserting values in UserLogin table
+            preparedStatement1.executeUpdate();
+            preparedStatement1.close(); // Closing Prepared Statement
+            PrintWriter out = resp.getWriter();
+            out.println("Inserted Successfully");
 
             connection.close(); // Closing Connection
 
@@ -101,4 +101,3 @@ public class Registration extends HttpServlet {
 }
 
 //Todo: Implement ignore case search
-//Todo: Implement duplicate email registration

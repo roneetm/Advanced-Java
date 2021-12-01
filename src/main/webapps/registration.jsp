@@ -52,7 +52,7 @@
                 </div>
                 <div class="col-md-12">
                     <label for="inputFirstName4" class="form-label">Phone</label>
-                    <input type="text" class="form-control" name="phone" placeholder="+91 99xxxxxxxx">
+                    <input type="text" class="form-control" name="phone" placeholder="+91 99xxxxxx00">
                 </div>
                 <div class="col-md-6">
                     <label for="inputEmail4" class="form-label">Email</label>
