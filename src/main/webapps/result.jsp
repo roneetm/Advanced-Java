@@ -25,17 +25,19 @@ pageEncoding="ISO-8859-1"%>
     <!--Business Logic-->
     <div class="container">
         <div class="row">
+            <%
+                // retrieve your list from the request, with casting
+                ArrayList<String> list = (ArrayList<String>) request.getAttribute("searchResult");
+                Iterator iterator = list.iterator();
+            %>
             <div class="card col-3">
-                <div class="card-body">
-                    <%
-                        // retrieve your list from the request, with casting
-                            ArrayList<String> list = (ArrayList<String>) request.getAttribute("searchResult");
-                            Iterator iterator = list.iterator();
-                            // print the information about every category of the list
-                            while(iterator.hasNext())
-                            out.println(iterator.next());
-                    %>
-                </div>
+                <%
+                    // print the information about every category of the list
+                    while(iterator.hasNext())
+                        out.println(iterator.next());
+                %>  
+                    <div class="card-body"> </div>
+                
             </div>
         </div>
 
