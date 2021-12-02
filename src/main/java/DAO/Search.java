@@ -45,9 +45,7 @@ public class Search extends HttpServlet {
             req.setAttribute("searchResult", searchResult);
             req.getRequestDispatcher("/result.jsp").forward(req, resp);
 
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
+        } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
     }

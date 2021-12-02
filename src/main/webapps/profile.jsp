@@ -18,7 +18,7 @@
 <nav class="navbar navbar-dark bg-dark">
     <div class="container">
         <span class="navbar-brand mb-0 h1">MIKE</span>
-        <a href="logout" class="btn btn-outline-success" role="button">Logout</a>
+        <a href="logout" class="btn btn-outline-danger" role="button">Logout</a>
     </div>
 </nav>
 
@@ -57,5 +57,28 @@
         <br>
     </div>
     
+
+<section class="vh-50" style="background-color: #5f59f7;">
+    <div class="container py-5 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col col-xl-10">
+          <div class="card mb-5" style="border-radius: 15px;">
+            <div class="card-body p-4">
+              <h3 class="mb-3"><%= firstName%> <%= lastName%></h3>
+              <p class="small mb-0"><i class="far fa-star fa-lg"></i> <span class="mx-2">|</span> Email: <strong><%= email%></strong></p>
+              <p class="small mb-0"><i class="far fa-star fa-lg"></i> <span class="mx-2">|</span> Phone: <strong><%= phone%></strong></p>
+              <hr class="my-4">
+              <div class="d-flex justify-content-start align-items-center">
+                <p class="mb-0 text-uppercase"><i class="fas fa-cog me-2"></i> <span class="text-muted small"><%= city%></span></p>
+                <p class="mb-0 text-uppercase"><i class="fas fa-cog me-2"></i> <span class="text-muted small"><%= zip%></span></p>
+                <p class="mb-0 text-uppercase"><i class="fas fa-link ms-4 me-2"></i> <span class="text-muted small"><%= state%></span></p>
+                <p class="mb-0 text-uppercase"><i class="fas fa-ellipsis-h ms-4 me-2"></i> <span class="text-muted small"><%= country%></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </body>
 </html>

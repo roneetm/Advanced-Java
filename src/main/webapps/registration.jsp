@@ -12,7 +12,7 @@
     <div class="container">
         <span class="navbar-brand mb-0 h1">MIKE</span>
         <span class="navbar-text">
-        <a href="index.html" class="btn btn-outline-success" role="button">Login</a>
+        <a href="index.jsp" class="btn btn-outline-success" role="button">Login</a>
       </span>
     </div>
 </nav>

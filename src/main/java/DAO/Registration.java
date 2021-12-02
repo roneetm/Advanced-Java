@@ -6,10 +6,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.*;
-import java.util.Locale;
 
 @WebServlet("/registration")
 public class Registration extends HttpServlet {
@@ -38,7 +35,7 @@ public class Registration extends HttpServlet {
                 }
             }// If no email is found then control flow will continue to registration process
 
-            if(flag == -1){
+            if (flag == -1) {
                 // Getting Max partyId from Database
                 Statement statement = connection.createStatement();
                 ResultSet result = statement.executeQuery("select MAX(partyId) as maxId from Party");
@@ -61,6 +58,7 @@ public class Registration extends HttpServlet {
                 String country = req.getParameter("country");
                 String phone = req.getParameter("phone");
 
+                // Query for inserting values into Party table
                 String query = "INSERT INTO `Data_Modelling`.`Party` " +
                         "(`partyId`, `firstName`, `lastName`, `city`, `zip`, `state`, `country`, `phone`) " +
                         "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
@@ -75,6 +73,7 @@ public class Registration extends HttpServlet {
                 preparedStatement.setString(7, country);
                 preparedStatement.setString(8, phone);
 
+                // Query for inserting values into UserLogin table
                 String loginQuery = "INSERT INTO `Data_Modelling`.`UserLogin` " +
                         "(`userLoginId`, `password`, `partyId`) " +
                         "VALUES (?, ?, ?)";
@@ -107,5 +106,3 @@ public class Registration extends HttpServlet {
         }
     } // Closing doPost Method
 }
-
-//Todo: Implement ignore case search
