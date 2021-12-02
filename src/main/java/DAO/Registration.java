@@ -38,13 +38,13 @@ public class Registration extends HttpServlet {
             if (flag == -1) {
                 // Getting Max partyId from Database
                 Statement statement = connection.createStatement();
-                ResultSet result = statement.executeQuery("select MAX(partyId) as maxId from Party");
+                ResultSet result = statement.executeQuery("select MAX(partyId) as partyId from Party");
 
                 // Storing max value in variable Id
-                int maxId = -1;
+                int partyId = -1;
                 if (result != null) {
                     while (result.next()) {
-                        maxId = result.getInt("maxId");
+                        partyId = result.getInt("partyId");
                     }
                 }
                 statement.close(); // Closing Statement
@@ -64,7 +64,7 @@ public class Registration extends HttpServlet {
                         "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
                 PreparedStatement preparedStatement = connection.prepareStatement(query);
-                preparedStatement.setInt(1, maxId + 1);
+                preparedStatement.setInt(1, partyId + 1);
                 preparedStatement.setString(2, firstName);
                 preparedStatement.setString(3, lastName);
                 preparedStatement.setString(4, city);
@@ -81,7 +81,7 @@ public class Registration extends HttpServlet {
                 PreparedStatement preparedStatement1 = connection.prepareStatement(loginQuery);
                 preparedStatement1.setString(1, email);
                 preparedStatement1.setString(2, password);
-                preparedStatement1.setInt(3, maxId + 1);
+                preparedStatement1.setInt(3, partyId + 1);
 
                 // Setting values in Party Table
                 preparedStatement.executeUpdate();

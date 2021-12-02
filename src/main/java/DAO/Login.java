@@ -42,6 +42,7 @@ public class Login extends HttpServlet {
                     String state = "";
                     String country = "";
                     String phone = "";
+                    String partyId = "";
                    
                     if(resultSet1.next()){
                        firstName = resultSet1.getString("firstName");
@@ -51,6 +52,7 @@ public class Login extends HttpServlet {
                        state = resultSet1.getString("state");
                        country = resultSet1.getString("country");
                        phone = resultSet1.getString("phone");
+                       partyId = resultSet1.getString("partyId");
                     }
 
                     //Creating HTTP Session
@@ -64,7 +66,8 @@ public class Login extends HttpServlet {
                     httpSession.setAttribute("state", state);
                     httpSession.setAttribute("country", country);
                     httpSession.setAttribute("phone", phone);
-                   
+                    httpSession.setAttribute("partyId", partyId);
+
                     RequestDispatcher requestDispatcher = req.getRequestDispatcher("profile.jsp");
                     requestDispatcher.forward(req, resp);
                 } // if condition closed
