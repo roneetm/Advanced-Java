@@ -25,17 +25,18 @@ public class Registration extends HttpServlet {
             Statement statement1 = connection.createStatement();
             ResultSet resultSet = statement1.executeQuery(checkingEmail);
 
-            int flag = -1;
+            boolean flag = false;
             while (resultSet.next()) {
                 if (resultSet.getString("userLoginId").equalsIgnoreCase(email)) {
-                    flag = 0;
+                    //If email is found then flag will be true
+                    flag = true;
                     RequestDispatcher requestDispatcher = req.getRequestDispatcher("registration.jsp");
                     req.setAttribute("errMsg", "Email already exists");
                     requestDispatcher.include(req, resp);
                 }
             }// If no email is found then control flow will continue to registration process
 
-            if (flag == -1) {
+            if (flag == false) { // if Flag is False then we will continue with registration
                 // Getting Max partyId from Database
                 Statement statement = connection.createStatement();
                 ResultSet result = statement.executeQuery("select MAX(partyId) as partyId from Party");
@@ -44,7 +45,7 @@ public class Registration extends HttpServlet {
                 int partyId = -1;
                 if (result != null) {
                     while (result.next()) {
-                        partyId = result.getInt("partyId");
+                        partyId = (result.getInt("partyId")) + 1;
                     }
                 }
                 statement.close(); // Closing Statement
@@ -64,7 +65,7 @@ public class Registration extends HttpServlet {
                         "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
                 PreparedStatement preparedStatement = connection.prepareStatement(query);
-                preparedStatement.setInt(1, partyId + 1);
+                preparedStatement.setInt(1, partyId);
                 preparedStatement.setString(2, firstName);
                 preparedStatement.setString(3, lastName);
                 preparedStatement.setString(4, city);
@@ -81,7 +82,7 @@ public class Registration extends HttpServlet {
                 PreparedStatement preparedStatement1 = connection.prepareStatement(loginQuery);
                 preparedStatement1.setString(1, email);
                 preparedStatement1.setString(2, password);
-                preparedStatement1.setInt(3, partyId + 1);
+                preparedStatement1.setInt(3, partyId);
 
                 // Setting values in Party Table
                 preparedStatement.executeUpdate();
@@ -95,6 +96,7 @@ public class Registration extends HttpServlet {
                 RequestDispatcher requestDispatcher = req.getRequestDispatcher("/profile.jsp");
                 HttpSession httpSession = req.getSession(true);
                 httpSession.setAttribute("email", email);
+                httpSession.setAttribute("partyId", partyId);
                 requestDispatcher.forward(req, resp);
             }
             connection.close(); // Closing Connection
