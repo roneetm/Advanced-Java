@@ -15,7 +15,5 @@
         <filter-name>AuthFilter</filter-name>
         <url-pattern>/profile.jsp</url-pattern>
         <url-pattern>/search.jsp</url-pattern>
-        <url-pattern>/login</url-pattern>
-        <url-pattern>/registration</url-pattern>
     </filter-mapping>
 </web-app>
