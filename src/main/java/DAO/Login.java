@@ -72,8 +72,10 @@ public class Login extends HttpServlet {
                     requestDispatcher.forward(req, resp);
                 } // if condition closed
                 else {
-                    PrintWriter out = resp.getWriter();
-                    out.println("Bad Credentials");
+                    HttpSession session = req.getSession();
+                    RequestDispatcher requestDispatcher = req.getRequestDispatcher("index.jsp");
+                    req.setAttribute("errMsg", "Email already exists");
+                    requestDispatcher.forward(req, resp);
                 }
             } // Closing while loop
         } catch (ClassNotFoundException | SQLException e) {

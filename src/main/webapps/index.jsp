@@ -36,14 +36,11 @@
                     </div>
                     <div class="form-floating">
                         <input type="password" class="form-control" name="password" placeholder="Password">
+                        <span style="color:red;">${errMsg}</span>
                         <label for="floatingPassword">Password</label>
+                        <div></div>
                     </div>
-
-                    <div class="checkbox mb-3 pt-3">
-                        <label>
-                            <input type="checkbox" value="remember-me"> Remember me
-                        </label>
-                    </div>
+                    <br>
                     <button class="w-50 btn btn-small btn-primary" type="submit">Sign in</button>
                     <p class="mt-5 mb-3 text-muted">&copy; 2021</p>
                 </form>
