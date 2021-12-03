@@ -26,7 +26,6 @@
             <div class="col-6 md-8 mt-5">
                 <h1 class="h2 mb-3 fw-normal"><strong>Enter a name to search</strong></h1>
                 <form action="search" class="row g-3" method="post">
-                    <span style="color:red;">${errMsg}</span>
 
                     <div class="col-md-6">
                         <label for="inputFirstName4" class="form-label">First Name</label>
