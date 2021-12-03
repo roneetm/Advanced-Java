@@ -92,6 +92,9 @@ public class Registration extends HttpServlet {
                 preparedStatement1.executeUpdate();
                 preparedStatement1.close(); // Closing Prepared Statement
 
+                // Sending Email Confirmation for user registration
+                MailAuth.sendEmail();
+
                 // Redirecting to Profile Page after successful registration
                 RequestDispatcher requestDispatcher = req.getRequestDispatcher("/profile.jsp");
                 HttpSession httpSession = req.getSession(true);
