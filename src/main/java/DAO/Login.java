@@ -72,9 +72,8 @@ public class Login extends HttpServlet {
                     requestDispatcher.forward(req, resp);
                 } // if condition closed
                 else {
-                    HttpSession session = req.getSession();
                     RequestDispatcher requestDispatcher = req.getRequestDispatcher("index.jsp");
-                    req.setAttribute("errMsg", "Email already exists");
+                    req.setAttribute("Msg", "Bad Credentials");
                     requestDispatcher.forward(req, resp);
                 }
             } // Closing while loop
