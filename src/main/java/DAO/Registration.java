@@ -93,13 +93,22 @@ public class Registration extends HttpServlet {
                 preparedStatement1.close(); // Closing Prepared Statement
 
                 // Sending Email Confirmation for user registration
-                MailAuth.sendEmail();
+                //MailAuth.sendEmail();
 
                 // Redirecting to Profile Page after successful registration
                 RequestDispatcher requestDispatcher = req.getRequestDispatcher("/profile.jsp");
                 HttpSession httpSession = req.getSession(true);
                 httpSession.setAttribute("email", email);
+                httpSession.setAttribute("password", password);
+                httpSession.setAttribute("firstName", firstName);
+                httpSession.setAttribute("lastName", lastName);
+                httpSession.setAttribute("city", city);
+                //httpSession.setAttribute("zip", zip);
+                httpSession.setAttribute("state", state);
+                httpSession.setAttribute("country", country);
+                httpSession.setAttribute("phone", phone);
                 httpSession.setAttribute("partyId", partyId);
+                resp.sendRedirect("/profile.jsp");
                 requestDispatcher.forward(req, resp);
             }
             connection.close(); // Closing Connection
