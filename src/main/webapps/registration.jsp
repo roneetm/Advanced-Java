@@ -24,8 +24,18 @@
         <div class="col-3 md-1"> </div>
 
         <div class="col-6 md-8 pt-5">
+            <span style="color:red;">
+                <strong>
+                <% 
+                    if(null!=request.getAttribute("deleteMsg")) {
+                     out.println(request.getAttribute("deleteMsg")); 
+                    } 
+                %>
+                   </strong> 
+            </span>
             <h1 class="h2 mb-3 fw-normal"> <strong>Sign Up</strong> </h1>
             <form action="registration" class="row g-3" method="post">
+                
                 <div class="col-md-6">
                     <label for="inputFirstName4" class="form-label">First Name</label>
                     <input type="text" class="form-control" id="inputFirstName4" name="firstName" placeholder="John" required>

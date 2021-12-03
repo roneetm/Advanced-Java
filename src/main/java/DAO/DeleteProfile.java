@@ -29,12 +29,14 @@ public class DeleteProfile extends HttpServlet {
                 Statement statement = connection.createStatement();
                 statement.executeUpdate(query);
                 session.invalidate();
-                resp.sendRedirect("/registration.html");
+                req.setAttribute("deleteMsg", "Profile Deleted Successfully");
+                RequestDispatcher requestDispatcher = req.getRequestDispatcher("registration.jsp");
+                requestDispatcher.include(req, resp);
 
             } catch (ClassNotFoundException | SQLException e) {
                 e.printStackTrace();
             }
         } else
-            resp.sendRedirect("/login.jsp");
+            resp.sendRedirect("/index.jsp");
     }
 }
