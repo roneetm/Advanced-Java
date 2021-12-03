@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.*;
 
 @WebServlet("/login")
@@ -27,9 +26,10 @@ public class Login extends HttpServlet {
             ResultSet resultSet = statement.executeQuery(query);
 
             while(resultSet.next()){
+                // Checking if entered email & password are correct.
                 if(resultSet.getString("userLoginId").equalsIgnoreCase(email)
                         && resultSet.getString("password").equals(password)){
-                    // If condition is true, we will fetch user data
+                    // If credentials matches database then, we will fetch user data
                     String userData = "select * from Party natural join UserLogin where userLoginId = ?";
 
                     PreparedStatement preparedStatement = connection.prepareStatement(userData);
@@ -71,12 +71,12 @@ public class Login extends HttpServlet {
                     RequestDispatcher requestDispatcher = req.getRequestDispatcher("profile.jsp");
                     requestDispatcher.forward(req, resp);
                 } // if condition closed
-                else {
-                    RequestDispatcher requestDispatcher = req.getRequestDispatcher("index.jsp");
-                    req.setAttribute("Msg", "Bad Credentials");
-                    requestDispatcher.forward(req, resp);
-                }
             } // Closing while loop
+
+                // If no records are found then we'll redirect to login page with error message
+                RequestDispatcher requestDispatcher = req.getRequestDispatcher("index.jsp");
+                req.setAttribute("Msg", "Bad Credentials");
+                requestDispatcher.forward(req, resp);
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
