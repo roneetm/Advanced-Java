@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
-  <%@ page import="javax.servlet.http.HttpServletRequest" %>
+<%@ page import="javax.servlet.http.*" %>
+<%@page import="java.sql.*"%>
+<%@page import="java.sql.Connection"%>
+<%@page import="java.sql.DriverManager"%>
+<%@page import="java.sql.ResultSet"%>
 
     <!DOCTYPE html>
     <html lang="en">
@@ -29,15 +33,69 @@
           <span class="fs-4">Welcome to your Profile</span>
           <br>
         </header>
-        <% 
+        <%
             String email =(String) session.getAttribute("email"); 
-            String firstName = (String) session.getAttribute("firstName"); 
-            String lastName = (String) session.getAttribute("lastName"); 
-            String city = (String) session.getAttribute("city"); 
-            String zip = (String) session.getAttribute("zip"); 
-            String state = (String) session.getAttribute("state"); 
-            String country = (String) session.getAttribute("country"); 
-            String phone = (String) session.getAttribute("phone"); 
+            String password = (String) session.getAttribute("password");
+            String firstName = "";
+            String lastName = "";
+            String city = "";
+            String zip = "";
+            String state = "";
+            String country = "";
+            String phone = "";
+            String partyId = "";
+
+
+            try {
+               Connection connection = null;
+                       try{
+                           Class.forName("com.mysql.cj.jdbc.Driver");
+                           connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Data_Modelling", "roneet", "123456");
+                           System.out.println("Connection Established");
+                       } catch (SQLException sqlException){
+                           sqlException.getMessage();
+                       }
+
+               String query = "select userLoginId, password from UserLogin";
+               Statement statement = connection.createStatement();
+               ResultSet resultSet = statement.executeQuery(query);
+
+               while(resultSet.next()){
+                   if(resultSet.getString("userLoginId").equalsIgnoreCase(email)
+                           && resultSet.getString("password").equals(password)){
+                       String userData = "select * from Party natural join UserLogin where userLoginId = ?";
+
+                       PreparedStatement preparedStatement = connection.prepareStatement(userData);
+                       preparedStatement.setString(1, email);
+                       ResultSet resultSet1 = preparedStatement.executeQuery();
+                       
+                       if(resultSet1.next()){
+                          firstName = resultSet1.getString("firstName");
+                          lastName = resultSet1.getString("lastName");
+                          city = resultSet1.getString("city");
+                          zip = resultSet1.getString("zip");
+                          state = resultSet1.getString("state");
+                          country = resultSet1.getString("country");
+                          phone = resultSet1.getString("phone");
+                          partyId = resultSet1.getString("partyId");
+                       }
+
+                       request.getSession();
+                       session.setAttribute("email", email);
+                       session.setAttribute("password", password);
+                       session.setAttribute("firstName", firstName);
+                       session.setAttribute("lastName", lastName);
+                       session.setAttribute("city", city);
+                       session.setAttribute("zip", zip);
+                       session.setAttribute("state", state);
+                       session.setAttribute("country", country);
+                       session.setAttribute("phone", phone);
+                       session.setAttribute("partyId", partyId);
+                   }
+               }
+           } catch (ClassNotFoundException | SQLException e) {
+               e.printStackTrace();
+           }
         %>
 
           <section class="vh-70" style="background-color: #5f59f7;">
