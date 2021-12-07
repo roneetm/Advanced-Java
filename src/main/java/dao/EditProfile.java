@@ -1,4 +1,6 @@
-package DAO;
+package dao;
+
+import service.DBConnection;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;

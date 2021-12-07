@@ -1,4 +1,4 @@
-package DAO;
+package service;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
