@@ -2,6 +2,8 @@ package servlets;
 
 import dao.LoginDao;
 import model.Login;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -14,10 +16,11 @@ import java.io.IOException;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
+    final static Logger logger = LogManager.getLogger(LoginServlet.class);
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+        logger.info("Login doPost Called");
         String email = req.getParameter("email");
         String password = req.getParameter("password");
 
