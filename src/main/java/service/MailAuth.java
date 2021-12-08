@@ -4,6 +4,7 @@ import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Properties;
+import java.util.ResourceBundle;
 
 public class MailAuth {
 
@@ -30,7 +31,11 @@ public class MailAuth {
         Session session = Session.getInstance(properties, new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication("roneet.michael@hotwaxsystems.com", "hotwax3042");
+                ResourceBundle rd
+                        = ResourceBundle.getBundle("mail");
+                String userName = rd.getString("userName");
+                String password = rd.getString("password");
+                return new PasswordAuthentication(userName, password);
             }
         });
         session.setDebug(true); // Will help in showing if there are any errors
